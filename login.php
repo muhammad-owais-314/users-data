@@ -1,4 +1,5 @@
 <?php 
+session_start();
 
 include("connection.php");
 
@@ -22,8 +23,16 @@ if($userData){
 
     if($verifyUser){
         echo "login sucessfully";
-$_SESSION['userid']
 
+$_SESSION['userid'] = $userData['id'];
+$_SESSION['name'] = $userData['name'];
+$_SESSION['email'] = $userData['email'];
+
+header("location:home.php");
+
+    }
+    else{
+        echo "login Faild";
     }
 }
 
