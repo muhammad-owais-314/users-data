@@ -1,6 +1,6 @@
 <?php
-include("connection.php");
 session_start();
+include("connection.php");
 
 // echo $_SESSION["name"];  // ya session ma value aa gaya ha 
 
@@ -15,21 +15,21 @@ if($userEntercode == $_SESSION["code"]){
   
 
     
- $username = $_POST["username"];
- $password = $_POST["password"];
- $email = $_POST["email"];
+ $name = $_SESSION["name"];
+ $password = $_SESSION["password"];
+ $email = $_SESSION["email"];
 
 
- $insertquery = "INSERT INTO `users`(`name`, `email`, `password`) VALUES (':name, :email, :password')";
- $insertprepare = $connect->prepare($insertquery);
- $insertprepare->bindParm(":name",$name, PDO::PARM_STR);
- $insertprepare->bindParm(":email",$email, PDO::PARM_STR);
+ $insertquery = "INSERT INTO `users`(`name`, `email`, `password`) VALUES (:name, :email, :password)";
+ $insertprepare = $connection->prepare($insertquery);
+ $insertprepare->bindParam(":name",$name, PDO::PARAM_STR);
+ $insertprepare->bindParam(":email",$email, PDO::PARAM_STR);
 
  $hashpassword = password_hash($password,PASSWORD_BCRYPT);  // ya password ko ya password ko dcord karay ga show nahii ho ga
 
- $insertprepare->bindParm(":password", $hashpassword, PDO::PARM_STR);   // // password ko hash password ka andar store kr da ga
+ $insertprepare->bindParam(":password", $hashpassword, PDO::PARAM_STR);   // // password ko hash password ka andar store kr da ga
 
-if($insertprepare->execute){
+if($insertprepare->execute()){
 echo "user added successfully";
 
 }else{
